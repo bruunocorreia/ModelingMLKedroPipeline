@@ -1,0 +1,11 @@
+#id columns and target column
+id_columns = ['ID']
+target_column = ['TARGET']
+
+#size of testing in train test split function
+test_size = 0.25
+seed = 18051995
+
+#feature selection parameters
+variance = 0.01
+corr = 0.8

@@ -1,0 +1,61 @@
+# Here you can define all your data sets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in "The Data Catalog"
+# Link: https://docs.kedro.org/en/stable/data/data_catalog.html
+
+
+############ TRAIN DATA #######################################
+train:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/train.csv
+  
+validation:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/test.csv
+  
+#Train and test split data
+x_train:
+  type: pandas.CSVDataset
+  filepath: data/02_master_table/x_train.csv
+
+x_test:
+  type: pandas.CSVDataset
+  filepath: data/02_master_table/x_test.csv
+  
+y_train:
+  type: pandas.CSVDataset
+  filepath: data/02_master_table/y_train.csv
+
+y_test:
+  type: pandas.CSVDataset
+  filepath: data/02_master_table/y_test.csv
+
+############  FEATURE SELECTION #######################################
+features_unsupervised:
+  type: pandas.CSVDataset
+  filepath: data/03_models/feature_selection_step1.csv
+
+features_supervised:
+  type: pandas.CSVDataset
+  filepath: data/03_models/feature_to_keep.csv
+
+############  MODEL TRAINING #######################################
+model_training:
+  type: pickle.PickleDataset
+  filepath: data/03_models/best_model.pkl
+  backend: pickle
+
+############  SCORING #######################################
+scoring:
+  type: pandas.CSVDataset
+  filepath: data/04_model_output/scoring_df.csv
+  
+############  INFO MODELS #######################################
+#Save statistic model
+model_summary:
+  type: pandas.CSVDataset
+  filepath: data/05_reporting/model_summary.csv
+  
+model_evaluation:
+  type: pandas.CSVDataset
+  filepath: data/05_reporting/model_evaluation.csv
