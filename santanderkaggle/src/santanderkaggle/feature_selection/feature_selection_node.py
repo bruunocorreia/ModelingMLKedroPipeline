@@ -1,11 +1,12 @@
-from utils import variance_threshold
-from utils import correlation
-from utils import variance_threshold
-from utils import correlation
+from .utils import variance_threshold
+from .utils import correlation
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import RFECV
+from kedro.pipeline import node
+from typing import Dict, Tuple
+import pandas as pd
 
-def UnsupervisedFeatureSelection(x_train, variance, corr):
+def UnsupervisedFeatureSelection(x_train,parameters: Dict) -> Tuple:
     """
     Perform unsupervised feature selection based on variance and correlation.
 
@@ -18,6 +19,11 @@ def UnsupervisedFeatureSelection(x_train, variance, corr):
     Returns:
         list: A list of selected feature columns after feature selection.
     """
+    
+    #Define parameters
+    variance = parameters["variance"]
+    corr = parameters["corr"]
+
     # Define type of columns
     num_vars = x_train.select_dtypes(include=['float64', 'int64']).columns
     cat_vars = x_train.select_dtypes(include=['object']).columns
@@ -30,7 +36,7 @@ def UnsupervisedFeatureSelection(x_train, variance, corr):
     selected_columns = correlation(x_train.filter(num_vars_vt), threshold = corr)
     
     print('Total feature to keep =', len(selected_columns))
-    return selected_columns
+    return pd.DataFrame(selected_columns)
 
 def SupervisedFeatureSelection(x_train,
                                y_train, 
@@ -38,7 +44,7 @@ def SupervisedFeatureSelection(x_train,
                                metric="roc_auc",
                                cv=3,
                                model = RandomForestClassifier(),
-                               step=0.1):
+                               step=0.3):
     """
     Perform supervised feature selection using Recursive Feature Elimination with Cross-Validation (RFECV).
 
@@ -54,8 +60,15 @@ def SupervisedFeatureSelection(x_train,
     Returns:
         list: A list of selected feature columns.
     """
-    # Filter and drop ID columns
-    x_train = x_train[features].copy()
+    # Convert the DataFrame to a list
+    features = features['0'].values.tolist()
+    
+    # Create a boolean mask that checks if each column name is in 'features_set'
+    column_mask = x_train.columns.isin(features)
+
+    # Use the boolean mask to select the desired columns
+    x_train = x_train.loc[:, column_mask].copy().fillna(0)
+    
     print('initial number of vars =', len(x_train.columns))
 
     # Instantiate RFECV visualizer with a linear Random Forest classifier
@@ -64,9 +77,6 @@ def SupervisedFeatureSelection(x_train,
     # Fit the data to the visualizer
     visualizer.fit(x_train, y_train)
 
-    # Display the feature selection plot
-    visualizer.show()
-
     # Get the optimal number of selected features and the list of best features
     optimal_num_features = visualizer.n_features_
     best_features = list(x_train.columns[visualizer.support_])
@@ -74,5 +84,5 @@ def SupervisedFeatureSelection(x_train,
     print('Optimal number of features:', optimal_num_features)
     print('Selected features:', best_features)
     
-    return best_features
+    return pd.DataFrame(best_features)
 

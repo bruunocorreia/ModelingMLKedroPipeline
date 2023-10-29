@@ -1,8 +1,9 @@
-id_columns:
-  - 'ID'
-target_column:
-  - 'TARGET'
-test_size: 0.25
-seed: 18051995
-variance: 0.01
-corr: 0.8
+model_options:
+    target_column: 'TARGET'
+    test_size: 0.25
+    seed: 18051995
+    id_columns: 'ID'
+
+model_feature_selection:
+    variance: 0.01
+    corr: 0.8

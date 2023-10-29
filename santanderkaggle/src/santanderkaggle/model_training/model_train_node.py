@@ -2,6 +2,8 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 from hyperopt import fmin, hp, tpe, space_eval
 import joblib
+from kedro.pipeline import node
+from typing import Dict, Tuple
 
 def train_and_save_xgboost_model(x_train, y_train,features, seed=42, max_evals=30):
     """
@@ -24,8 +26,13 @@ def train_and_save_xgboost_model(x_train, y_train,features, seed=42, max_evals=3
     model = train_and_save_xgboost_model(x_train, y_train, seed=42, max_evals=10)
     """
     
-    x_train = x_train[features].copy()
+    # Convert the DataFrame to a list
+    features = features['0'].values.tolist()
     
+
+    # Use the boolean mask to select the desired columns
+    x_train = x_train[features].copy().fillna(0)
+        
     # Function for hyperparameter optimization
     def objective(params):
         """
@@ -83,10 +90,5 @@ def train_and_save_xgboost_model(x_train, y_train,features, seed=42, max_evals=3
     # Training the model with the best hyperparameters
     model_xgb = XGBClassifier(n_jobs=-1, random_state=seed, objective='binary:logistic', **best_params)
     model_xgb.fit(x_train, y_train)
-
-    # Saving the model to a file
-    model_filename = 'best_xgboost_model.pkl'
-    joblib.dump(model_xgb, model_filename)
-    print(f"XGBoost model trained and saved as '{model_filename}'")
 
     return model_xgb

@@ -1,5 +1,5 @@
-"""SantanderKaggle file for ensuring the package is executable
-as `santanderkaggle` and `python -m santanderkaggle`
+"""{{ cookiecutter.project_name }} file for ensuring the package is executable
+as `{{ cookiecutter.repo_name }}` and `python -m {{ cookiecutter.python_package }}`
 """
 import importlib
 from pathlib import Path
@@ -20,7 +20,7 @@ def _find_run_command(package_name):
         if run:
             # use run command from installed plugin if it exists
             return run
-        # use run command from `kedro.framework.cli.project`
+        # use run command from the framework project
         from kedro.framework.cli.project import run
 
         return run

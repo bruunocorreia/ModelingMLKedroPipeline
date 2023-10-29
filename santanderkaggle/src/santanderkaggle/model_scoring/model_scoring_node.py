@@ -1,5 +1,9 @@
 import pandas
-def scoring_dataframe(df, id_columns, features, model):
+from kedro.pipeline import node
+from typing import Dict, Tuple
+import pandas as pd
+
+def scoring_dataframe(df, features, model,parameters: Dict) -> Tuple:
     """
     Create a DataFrame with deciles from a validation CSV file using a trained model.
 
@@ -13,10 +17,15 @@ def scoring_dataframe(df, id_columns, features, model):
     - DataFrame: A DataFrame with 'score' and 'deciles' columns.
 
     """
+    #get params
+    id_columns = parameters["id_columns"]
+    
+    # Convert the DataFrame to a list
+    features = features['0'].values.tolist()
 
-    # Load the validation CSV file, filtering by the specified columns
-    df_validation = df.set_index(id_columns)[features]
-
+    # Use the boolean mask to select the desired columns
+    df_validation = df.set_index(id_columns)[features].fillna(0)
+    
     # Use the model to predict the 'score' for each record
     df_validation['score'] = model.predict_proba(df_validation)[:, 1]
     
