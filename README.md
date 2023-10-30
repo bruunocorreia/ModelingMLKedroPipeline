@@ -6,6 +6,17 @@
 
 This project showcases a comprehensive machine learning pipeline for predicting customer satisfaction for Santander, based on the Kaggle competition "[Santander Customer Satisfaction](https://www.kaggle.com/c/santander-customer-satisfaction)." This pipeline is built using Kedro, an open-source data pipeline development framework, and is designed to provide end-to-end support for data engineering and machine learning tasks.
 
+### Integration with Apache Airflow
+
+Kedro has been seamlessly integrated with Apache Airflow in this project to automate and orchestrate the machine learning pipeline workflow. The integration of Kedro with Airflow offers significant benefits, such as task scheduling, monitoring, scalability, and dependency management, making the execution of the pipeline more robust and efficient.
+
+By integrating Kedro with Airflow, you can:
+
+Schedule and automate the execution of your data and machine learning tasks.
+Monitor and track the progress of your pipeline using Airflow's user-friendly interface.
+Scale your pipeline to handle large datasets and complex workflows.
+Manage task dependencies and ensure that tasks are executed in the correct order.
+
 ## Table of Contents
 
 1. [Introduction](#introduction)
