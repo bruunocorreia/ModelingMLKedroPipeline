@@ -12,10 +12,10 @@ Kedro has been seamlessly integrated with Apache Airflow in this project to auto
 
 By integrating Kedro with Airflow, you can:
 
-Schedule and automate the execution of your data and machine learning tasks.
-Monitor and track the progress of your pipeline using Airflow's user-friendly interface.
-Scale your pipeline to handle large datasets and complex workflows.
-Manage task dependencies and ensure that tasks are executed in the correct order.
+- Schedule and automate the execution of your data and machine learning tasks.
+- Monitor and track the progress of your pipeline using Airflow's user-friendly interface.
+- Scale your pipeline to handle large datasets and complex workflows.
+- Manage task dependencies and ensure that tasks are executed in the correct order.
 
 ## Table of Contents
 
