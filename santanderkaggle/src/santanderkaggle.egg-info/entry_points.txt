@@ -1,0 +1,2 @@
+[console_scripts]
+santanderkaggle = santanderkaggle.__main__:main

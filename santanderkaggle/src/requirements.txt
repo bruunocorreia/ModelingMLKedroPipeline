@@ -22,3 +22,4 @@ scikit-plot
 seaborn
 traitlets<5.10.0
 xgboost
+kedro-airflow~=0.4
