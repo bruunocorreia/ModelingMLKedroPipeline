@@ -13,7 +13,6 @@ This project showcases a comprehensive machine learning pipeline for predicting 
 3. [Why Kedro?](#why-kedro)
 4. [Project Structure](#project-structure)
 5. [Pipeline Overview](#pipeline-overview)
-6. [Acknowledgments](#acknowledgments)
 
 ## Introduction
 
